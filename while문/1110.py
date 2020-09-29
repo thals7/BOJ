@@ -1,14 +1,16 @@
 N = input()
-A = int(N[0])
-B = int(N[-1])
+if int(N) < 10:
+    N = '0'+N
+A = N[0]
+B = N[-1]
 count = 1
-while True:
-    C = A+B
-    if C == int(N):
-        break
-    D = str(C)
-    A = B
-    B = int(D[-1])
-    count += 1
 
+while True:
+    C = str(int(A)+int(B))[-1]
+    New = B+C
+    if New == N:
+        break
+    A = New[0]
+    B = New[-1]
+    count += 1
 print(count)

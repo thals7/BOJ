@@ -13,4 +13,4 @@ while True:
     A = New[0]
     B = New[-1]
     count += 1
-print(count)
+print(count) 

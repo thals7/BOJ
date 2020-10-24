@@ -5,12 +5,13 @@ for i in range(1,N+1):
 print(fact)
 
 '''
+
 **for문을 쓰지 않는 경우 (재귀 함수의 이용)
 
 def factorial(num):
-    if N == 0:
+    if num == 0:
         return 1
-    return N * factorial(N-1)
+    return num * factorial(num-1)
 
 N = int(input())
 print(factorial(N))

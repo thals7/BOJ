@@ -1,36 +1,35 @@
-import sys
+import sys, heapq
 
 input = lambda: sys.stdin.readline().rstrip()
 
 n,e = map(int,input().split()) # n: 정점의 개수 e: 에지의 개수
 
-# 인접 리스트로 그래프 구현
-graph = {i:dict() for i in range(1,n+1)}
+# 인접 리스트로 무방향 그래프 구현
+graph = {i:set() for i in range(1,n+1)}
 for _ in range(e):
-    i,j,w = map(int,input().split()) # i,j : 연결된 정점 w : 정점을 잇는 에지의 가중치
-    graph[i][j] = w
-    graph[j][i] = w
+    u,v,w = map(int,input().split()) # i,j : 연결된 정점 w : 정점을 잇는 에지의 가중치
+    graph[u].add((v,w))
+    graph[v].add((u,w))
 
 
 def prim(graph,start):
-    keys = {}
-    pi = {}
+    keys = {i:float('inf') for i in graph}
+    visited = {i:False for i in graph} # 방문한 노드인지 확인
     total_weight = 0
-
-    for v in graph.keys():
-        keys[v] = float('inf')
-        pi[v] = None
     keys[start] = 0
+    Queue = []
+    heapq.heappush(Queue, (keys[start],start)) # 우선순위 큐에 (keys[node],node) 를 삽입
 
-    while keys:
-        node, key = min(keys.items(), key =lambda weight:weight[1])
-        del keys[node]
+    while Queue:
+        key, v = heapq.heappop(Queue)
+        if visited[v] == True:
+            continue
+        visited[v] = True
         total_weight += key
-
-        for adj, weight in graph[node].items():
-            if adj in keys and weight < keys[adj]:
-                keys[adj] = weight
-                pi[adj] = node
+        for u,w in graph[v]:
+            if u in keys and w < keys[u]:
+                keys[u] = w
+                heapq.heappush(Queue, (keys[u],u))
 
     return total_weight
 
